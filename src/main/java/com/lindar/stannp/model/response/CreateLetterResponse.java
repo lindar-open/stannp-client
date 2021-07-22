@@ -3,13 +3,13 @@ package com.lindar.stannp.model.response;
 import lombok.Data;
 
 import java.math.BigDecimal;
-import java.time.Instant;
+import java.time.ZonedDateTime;
 
 @Data
 public class CreateLetterResponse {
     private String pdf;
     private String id;
-    private Instant created;
+    private ZonedDateTime created;
     private String format;
     private BigDecimal cost;
     private String status;
