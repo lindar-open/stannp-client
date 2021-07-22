@@ -38,7 +38,7 @@ public class RequestBuilder {
 
     public void updateRequestMap(Map<String, Object> request){
         if(forceTest) {
-            log.info("Request forced running as test");
+            log.trace("Request forced running as test");
             request.put("test", "yes");
         }
 
