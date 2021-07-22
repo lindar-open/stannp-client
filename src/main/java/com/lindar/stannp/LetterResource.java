@@ -78,6 +78,9 @@ public class LetterResource extends BaseResource {
         if(request.getTest() != null)
             map.put("test", request.getTest());
 
+        if(request.getAddons() != null)
+            map.put("addons", request.getAddons());
+
         return map;
     }
 

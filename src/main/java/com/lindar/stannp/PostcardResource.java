@@ -4,7 +4,6 @@ import com.google.gson.reflect.TypeToken;
 import com.lindar.stannp.model.StannpHelper;
 import com.lindar.stannp.model.StannpResponse;
 import com.lindar.stannp.model.request.CreatePostcardRequest;
-import com.lindar.stannp.model.response.CreateLetterResponse;
 import com.lindar.stannp.model.response.CreatePostcardResponse;
 
 import java.util.HashMap;
@@ -63,6 +62,9 @@ public class PostcardResource extends BaseResource {
 
         if(request.getTest() != null)
             map.put("test", request.getTest());
+
+        if(request.getAddons() != null)
+            map.put("addons", request.getAddons());
 
         return map;
     }
