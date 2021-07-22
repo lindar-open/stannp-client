@@ -37,6 +37,8 @@ public class CreatePostcardRequest {
     private String message;
     @Getter
     private Boolean test;
+    @Getter
+    private String addons;
 
     public interface RecipientStep {
         ContentStep recipient(Recipient recipient);
@@ -62,6 +64,7 @@ public class CreatePostcardRequest {
 
     public interface OptionsStep extends BuildStep {
         OptionsStep test(boolean test);
+        OptionsStep addons(String addons);
     }
 
     public interface BuildStep {
@@ -83,6 +86,7 @@ public class CreatePostcardRequest {
         private File backImageFile;
         private String message;
         private Boolean test;
+        private String addons;
 
         private Steps(){}
 
@@ -156,6 +160,12 @@ public class CreatePostcardRequest {
         @Override
         public Steps test(boolean test) {
             this.test = test;
+            return this;
+        }
+
+        @Override
+        public Steps addons(String addons) {
+            this.addons = addons;
             return this;
         }
 

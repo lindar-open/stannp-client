@@ -35,6 +35,8 @@ public class CreateLetterRequest {
     private List<String> pages;
     @Getter
     private Boolean test;
+    @Getter
+    private String addons;
 
     public interface RecipientStep {
         ContentStep recipient(Recipient recipient);
@@ -54,6 +56,7 @@ public class CreateLetterRequest {
         OptionsStep duplex(boolean duplex);
         OptionsStep background(URL backgroundImageUrl);
         OptionsStep background(File backgroundImage);
+        OptionsStep addons(String addons);
     }
 
     public interface BuildStep {
@@ -73,6 +76,7 @@ public class CreateLetterRequest {
         private File file;
         private URL fileUrl;
         private Boolean duplex;
+        private String addons;
 
         private Steps(){}
 
@@ -140,6 +144,12 @@ public class CreateLetterRequest {
         @Override
         public Steps background(File backgroundImage) {
             this.backgroundImageFile = backgroundImage;
+            return this;
+        }
+
+        @Override
+        public Steps addons(String addons) {
+            this.addons = addons;
             return this;
         }
 
