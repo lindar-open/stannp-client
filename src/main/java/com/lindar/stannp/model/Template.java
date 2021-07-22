@@ -2,7 +2,6 @@ package com.lindar.stannp.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import com.lindar.stannp.model.enums.TemplateSize;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -43,7 +42,7 @@ public class Template {
 
     @SerializedName("size")
     @Expose
-    private TemplateSize size;
+    private String size;
 
     @SerializedName("page_count")
     @Expose
