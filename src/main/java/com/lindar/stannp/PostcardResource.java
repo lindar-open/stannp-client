@@ -18,10 +18,12 @@ public class PostcardResource extends BaseResource {
     }
 
     public StannpResponse<CreatePostcardResponse> create(CreatePostcardRequest request){
+        return create(request, null);
+    }
 
+    public StannpResponse<CreatePostcardResponse> create(CreatePostcardRequest request, String idempotencyKey){
         Map<String, Object> requestMap = requestToMap(request);
-
-        return postRequest(ENDPOINT + "/create", requestMap, new TypeToken<StannpResponse<CreatePostcardResponse>>(){});
+        return postRequest(ENDPOINT + "/create", requestMap, new TypeToken<StannpResponse<CreatePostcardResponse>>(){}, idempotencyKey);
     }
 
     private Map<String, Object> requestToMap(CreatePostcardRequest request){

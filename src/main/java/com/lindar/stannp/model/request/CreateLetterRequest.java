@@ -1,7 +1,6 @@
 package com.lindar.stannp.model.request;
 
 import com.lindar.stannp.model.Recipient;
-import com.lindar.stannp.model.enums.PostcardSize;
 import lombok.Data;
 import lombok.Getter;
 import org.apache.commons.beanutils.BeanUtils;
