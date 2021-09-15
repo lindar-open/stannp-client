@@ -1,9 +1,11 @@
 package com.lindar.stannp;
 
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.reflect.TypeToken;
 import com.lindar.stannp.model.StannpResponse;
 import com.lindar.stannp.utils.HttpEntityUtils;
+import com.lindar.wellrested.vo.WellRestedResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
@@ -23,11 +25,11 @@ abstract class BaseResource {
         this.requestBuilder = requestBuilder;
     }
 
-    final protected <T extends StannpResponse> T postRequest(String url, Map<String, Object> request, TypeToken<T> typeToken) {
+    final protected <T> StannpResponse<T> postRequest(String url, Map<String, Object> request, TypeToken<StannpResponse<T>> typeToken) {
         return postRequest(url, request, typeToken, null);
     }
 
-    final protected <T extends StannpResponse> T postRequest(String url, Map<String, Object> request, TypeToken<T> typeToken, String idempotencyKey) {
+    final protected <T> StannpResponse<T> postRequest(String url, Map<String, Object> request, TypeToken<StannpResponse<T>> typeToken, String idempotencyKey) {
 
         requestBuilder.updateRequestMap(request);
 
@@ -43,16 +45,24 @@ abstract class BaseResource {
             headers.add(idempotencyKeyHeader(idempotencyKey));
         }
 
-        return requestBuilder.newRequest(url).post()
+        WellRestedResponse response = requestBuilder.newRequest(url).post()
                 .httpEntity(entity)
                 .headers(headers)
-                .submit()
-                .fromJson().gsonCustomiser(gson -> {
-                    gson.registerTypeAdapter(LocalDateTime.class, (JsonDeserializer<LocalDateTime>) (jsonElement, type, jsonDeserializationContext) -> {
-                        if (jsonElement == null) return null;
-                        return LocalDateTime.parse(jsonElement.getAsString(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-                    });
-                }).castTo(typeToken);
+                .submit();
+
+        if (response.isClientTimeout() || response.isConnectionTimeout() || response.isSocketTimeout()) {
+            return StannpResponse.timeout();
+        }
+
+        return response
+                .fromJson().gsonCustomiser(BaseResource::gsonCustomiser).castTo(typeToken);
+    }
+
+    private static void gsonCustomiser(GsonBuilder gson) {
+        gson.registerTypeAdapter(LocalDateTime.class, (JsonDeserializer<LocalDateTime>) (jsonElement, type, jsonDeserializationContext) -> {
+            if (jsonElement == null) return null;
+            return LocalDateTime.parse(jsonElement.getAsString(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        });
     }
 
     private Header idempotencyKeyHeader(String idempotencyKey) {
