@@ -17,56 +17,60 @@ public class PostcardResource extends BaseResource {
         super(requestBuilder);
     }
 
-    public StannpResponse<CreatePostcardResponse> create(CreatePostcardRequest request){
+    public StannpResponse<CreatePostcardResponse> create(CreatePostcardRequest request) {
         return create(request, null);
     }
 
-    public StannpResponse<CreatePostcardResponse> create(CreatePostcardRequest request, String idempotencyKey){
+    public StannpResponse<CreatePostcardResponse> create(CreatePostcardRequest request, String idempotencyKey) {
         Map<String, Object> requestMap = requestToMap(request);
-        return postRequest(ENDPOINT + "/create", requestMap, new TypeToken<StannpResponse<CreatePostcardResponse>>(){}, idempotencyKey);
+        return postRequest(ENDPOINT + "/create", requestMap, new TypeToken<StannpResponse<CreatePostcardResponse>>() {
+        }, idempotencyKey);
     }
 
-    private Map<String, Object> requestToMap(CreatePostcardRequest request){
+    private Map<String, Object> requestToMap(CreatePostcardRequest request) {
         HashMap<String, Object> map = new HashMap<>();
 
-        if(request.getRecipient() != null)
+        if (request.getRecipient() != null)
             map.putAll(StannpHelper.recipientToNestedRequestMap(request.getRecipient()));
 
-        if(request.getRecipientId() != null)
+        if (request.getRecipientId() != null)
             map.put("recipient", String.valueOf(request.getRecipientId()));
 
-        if(request.getTemplateId() != null)
+        if (request.getTemplateId() != null)
             map.put("template", request.getTemplateId());
 
-        if(request.getSize() != null)
+        if (request.getSize() != null)
             map.put("size", request.getSize().name());
 
-        if(request.getFrontImageUrl() != null)
+        if (request.getFrontImageUrl() != null)
             map.put("front", request.getFrontImageUrl().toString());
 
-        if(request.getFrontImageFile() != null)
+        if (request.getFrontImageFile() != null)
             map.put("front", request.getFrontImageFile());
 
-        if(request.getSignatureImageUrl() != null)
+        if (request.getSignatureImageUrl() != null)
             map.put("signature", request.getSignatureImageUrl().toString());
 
-        if(request.getSignatureImageFile() != null)
+        if (request.getSignatureImageFile() != null)
             map.put("signature", request.getSignatureImageFile());
 
-        if(request.getBackImageUrl() != null)
+        if (request.getBackImageUrl() != null)
             map.put("back", request.getBackImageUrl().toString());
 
-        if(request.getBackImageFile() != null)
+        if (request.getBackImageFile() != null)
             map.put("back", request.getBackImageFile());
 
-        if(request.getMessage() != null)
+        if (request.getMessage() != null)
             map.put("message", request.getMessage());
 
-        if(request.getTest() != null)
+        if (request.getTest() != null)
             map.put("test", request.getTest());
 
-        if(request.getAddons() != null)
+        if (request.getAddons() != null)
             map.put("addons", request.getAddons());
+
+        if (request.getPostUnverified() != null)
+            map.put("post_unverified", request.getPostUnverified());
 
         return map;
     }

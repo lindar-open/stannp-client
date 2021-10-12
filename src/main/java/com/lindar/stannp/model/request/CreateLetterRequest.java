@@ -36,6 +36,8 @@ public class CreateLetterRequest {
     private Boolean test;
     @Getter
     private String addons;
+    @Getter
+    private Boolean postUnverified;
 
     public interface RecipientStep {
         ContentStep recipient(Recipient recipient);
@@ -51,6 +53,7 @@ public class CreateLetterRequest {
     }
 
     public interface OptionsStep extends BuildStep {
+        OptionsStep postUnverified(boolean postUnverified);
         OptionsStep test(boolean test);
         OptionsStep duplex(boolean duplex);
         OptionsStep background(URL backgroundImageUrl);
@@ -76,6 +79,7 @@ public class CreateLetterRequest {
         private URL fileUrl;
         private Boolean duplex;
         private String addons;
+        private Boolean postUnverified;
 
         private Steps(){}
 
@@ -125,6 +129,12 @@ public class CreateLetterRequest {
         @Override
         public Steps test(boolean test) {
             this.test = test;
+            return this;
+        }
+
+        @Override
+        public Steps postUnverified(boolean postUnverified) {
+            this.postUnverified = postUnverified;
             return this;
         }
 

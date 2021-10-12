@@ -89,6 +89,9 @@ public class LetterResource extends BaseResource {
         if (request.getAddons() != null)
             map.put("addons", request.getAddons());
 
+        if (request.getPostUnverified() != null)
+            map.put("post_unverified", request.getPostUnverified());
+
         return map;
     }
 
@@ -120,6 +123,9 @@ public class LetterResource extends BaseResource {
 
         if (request.getTest() != null)
             map.put("test", request.getTest());
+
+        if (request.getPostUnverified() != null)
+            map.put("post_unverified", request.getPostUnverified());
 
         return map;
     }

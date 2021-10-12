@@ -39,6 +39,8 @@ public class CreatePostcardRequest {
     private Boolean test;
     @Getter
     private String addons;
+    @Getter
+    private Boolean postUnverified;
 
     public interface RecipientStep {
         ContentStep recipient(Recipient recipient);
@@ -64,6 +66,7 @@ public class CreatePostcardRequest {
 
     public interface OptionsStep extends BuildStep {
         OptionsStep test(boolean test);
+        OptionsStep postUnverified(boolean postUnverified);
         OptionsStep addons(String addons);
     }
 
@@ -87,6 +90,7 @@ public class CreatePostcardRequest {
         private String message;
         private Boolean test;
         private String addons;
+        private Boolean postUnverified;
 
         private Steps(){}
 
@@ -160,6 +164,12 @@ public class CreatePostcardRequest {
         @Override
         public Steps test(boolean test) {
             this.test = test;
+            return this;
+        }
+
+        @Override
+        public Steps postUnverified(boolean postUnverified) {
+            this.postUnverified = postUnverified;
             return this;
         }
 

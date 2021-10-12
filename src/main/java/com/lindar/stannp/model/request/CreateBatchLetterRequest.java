@@ -32,6 +32,8 @@ public class CreateBatchLetterRequest {
     private List<String> pages;
     @Getter
     private Boolean test;
+    @Getter
+    private Boolean postUnverified;
 
     public interface RecipientStep {
         ContentStep recipients(List<Recipient> recipients);
@@ -46,6 +48,7 @@ public class CreateBatchLetterRequest {
     }
 
     public interface OptionsStep extends BuildStep {
+        OptionsStep postUnverified(boolean postUnverified);
         OptionsStep test(boolean test);
         OptionsStep duplex(boolean duplex);
         OptionsStep background(URL backgroundImageUrl);
@@ -69,6 +72,7 @@ public class CreateBatchLetterRequest {
         private File file;
         private URL fileUrl;
         private Boolean duplex;
+        private Boolean postUnverified;
 
         private Steps(){}
 
@@ -112,6 +116,12 @@ public class CreateBatchLetterRequest {
         @Override
         public Steps test(boolean test) {
             this.test = test;
+            return this;
+        }
+
+        @Override
+        public Steps postUnverified(boolean postUnverified) {
+            this.postUnverified = postUnverified;
             return this;
         }
 
