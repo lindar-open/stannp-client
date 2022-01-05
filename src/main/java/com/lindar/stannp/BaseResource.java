@@ -55,7 +55,7 @@ abstract class BaseResource {
         }
 
         return response
-                .fromJson().gsonCustomiser(BaseResource::gsonCustomiser).castTo(typeToken);
+                .fromJson().castTo(typeToken);
     }
 
     private static void gsonCustomiser(GsonBuilder gson) {
