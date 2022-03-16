@@ -9,6 +9,13 @@ public class StannpResponse<T> {
     private T data;
     private boolean timeout;
 
+    public static <E> StannpResponse<E> success(E data){
+        StannpResponse<E> ret = new StannpResponse<>();
+        ret.setData(data);
+        ret.setSuccess(true);
+        return ret;
+    }
+
     public static <E> StannpResponse<E> error(String error){
         StannpResponse<E> ret = new StannpResponse<>();
         ret.setError(error);

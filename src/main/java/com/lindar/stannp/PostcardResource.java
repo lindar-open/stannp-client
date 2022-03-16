@@ -5,6 +5,7 @@ import com.lindar.stannp.model.StannpHelper;
 import com.lindar.stannp.model.StannpResponse;
 import com.lindar.stannp.model.request.CreatePostcardRequest;
 import com.lindar.stannp.model.response.CreatePostcardResponse;
+import com.lindar.stannp.model.response.GetPostcardResponse;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,6 +26,10 @@ public class PostcardResource extends BaseResource {
         Map<String, Object> requestMap = requestToMap(request);
         return postRequest(ENDPOINT + "/create", requestMap, new TypeToken<StannpResponse<CreatePostcardResponse>>() {
         }, idempotencyKey);
+    }
+
+    public StannpResponse<GetPostcardResponse> get(long id) {
+        return getRequest(ENDPOINT + "/get/" + id, new TypeToken<StannpResponse<GetPostcardResponse>>() {});
     }
 
     private Map<String, Object> requestToMap(CreatePostcardRequest request) {

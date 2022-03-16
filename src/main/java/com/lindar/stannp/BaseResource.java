@@ -1,7 +1,5 @@
 package com.lindar.stannp;
 
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonDeserializer;
 import com.google.gson.reflect.TypeToken;
 import com.lindar.stannp.model.StannpResponse;
 import com.lindar.stannp.utils.HttpEntityUtils;
@@ -11,8 +9,6 @@ import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.message.BasicHeader;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -54,15 +50,21 @@ abstract class BaseResource {
             return StannpResponse.timeout();
         }
 
-        return response
-                .fromJson().castTo(typeToken);
+        return response.fromJson().castTo(typeToken);
     }
 
-    private static void gsonCustomiser(GsonBuilder gson) {
-        gson.registerTypeAdapter(LocalDateTime.class, (JsonDeserializer<LocalDateTime>) (jsonElement, type, jsonDeserializationContext) -> {
-            if (jsonElement == null) return null;
-            return LocalDateTime.parse(jsonElement.getAsString(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-        });
+    protected <T> StannpResponse<T> getRequest(String url, TypeToken<StannpResponse<T>> typeToken) {
+
+        url = requestBuilder.addApiKey(url);
+
+        WellRestedResponse response = requestBuilder.newRequest(url).get()
+                .submit();
+
+        if (response.isClientTimeout() || response.isConnectionTimeout() || response.isSocketTimeout()) {
+            return StannpResponse.timeout();
+        }
+
+        return response.fromJson().castTo(typeToken);
     }
 
     private Header idempotencyKeyHeader(String idempotencyKey) {

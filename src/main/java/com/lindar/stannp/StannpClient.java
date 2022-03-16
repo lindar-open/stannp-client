@@ -7,31 +7,38 @@ public class StannpClient {
     private LetterResource letterResource;
     private PostcardResource postcardResource;
     private TemplateResource templateResource;
+    private PdfResource pdfResource;
 
-    public StannpClient(String apiKey, boolean forceTest){
+
+    public StannpClient(String apiKey, boolean forceTest) {
         RequestBuilder requestBuilder = new RequestBuilder(DEFAULT_ENDPOINT, apiKey, forceTest);
         this.letterResource = new LetterResource(requestBuilder);
         this.postcardResource = new PostcardResource(requestBuilder);
         this.templateResource = new TemplateResource(requestBuilder);
+        this.pdfResource = new PdfResource(requestBuilder);
     }
 
-    public LetterResource letters(){
+    public LetterResource letters() {
         return letterResource;
     }
 
-    public PostcardResource postcode(){
+    public PostcardResource postcard() {
         return postcardResource;
     }
 
-    public TemplateResource template(){
+    public TemplateResource template() {
         return templateResource;
     }
 
-    public static StannpClient of(String apiKey){
+    public PdfResource pdf() {
+        return pdfResource;
+    }
+
+    public static StannpClient of(String apiKey) {
         return new StannpClient(apiKey, false);
     }
 
-    public static StannpClient of(String apiKey, boolean forceTest){
+    public static StannpClient of(String apiKey, boolean forceTest) {
         return new StannpClient(apiKey, forceTest);
     }
 }
