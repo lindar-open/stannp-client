@@ -4,7 +4,7 @@ import com.google.gson.JsonDeserializer;
 import com.lindar.wellrested.WellRestedRequest;
 import com.lindar.wellrested.json.GsonJsonMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.http.client.utils.URIBuilder;
+import org.apache.hc.core5.net.URIBuilder;
 
 import java.net.URISyntaxException;
 import java.time.LocalDateTime;
