@@ -1,6 +1,7 @@
 package com.lindar.stannp;
 
 import com.google.gson.JsonDeserializer;
+import com.lindar.stannp.utils.StannpDateJsonDeserializer;
 import com.lindar.wellrested.WellRestedRequest;
 import com.lindar.wellrested.json.GsonJsonMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -13,9 +14,6 @@ import java.util.Map;
 
 @Slf4j
 public class RequestBuilder {
-
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-
 
     private final String endpoint;
     private final String apiKey;
@@ -31,12 +29,7 @@ public class RequestBuilder {
         return WellRestedRequest.builder()
                 .url(endpoint + path)
                 .jsonMapper(new GsonJsonMapper.Builder()
-                        .gsonCustomiser(gson -> {
-                            gson.registerTypeAdapter(LocalDateTime.class, (JsonDeserializer<LocalDateTime>) (jsonElement, type, jsonDeserializationContext) -> {
-                                if(jsonElement == null) return null;
-                                return LocalDateTime.parse(jsonElement.getAsString(), formatter);
-                            });
-                        })
+                        .gsonCustomiser(gson -> gson.registerTypeAdapter(LocalDateTime.class, new StannpDateJsonDeserializer()))
                         .build()
                 )
                 .build();
@@ -46,12 +39,7 @@ public class RequestBuilder {
         return WellRestedRequest.builder()
                 .url(path)
                 .jsonMapper(new GsonJsonMapper.Builder()
-                        .gsonCustomiser(gson -> {
-                            gson.registerTypeAdapter(LocalDateTime.class, (JsonDeserializer<LocalDateTime>) (jsonElement, type, jsonDeserializationContext) -> {
-                                if(jsonElement == null) return null;
-                                return LocalDateTime.parse(jsonElement.getAsString(), formatter);
-                            });
-                        })
+                        .gsonCustomiser(gson -> gson.registerTypeAdapter(LocalDateTime.class, new StannpDateJsonDeserializer()))
                         .build()
                 )
                 .build();
