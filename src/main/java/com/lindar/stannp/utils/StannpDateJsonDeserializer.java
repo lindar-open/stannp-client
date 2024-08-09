@@ -19,12 +19,12 @@ public class StannpDateJsonDeserializer implements JsonDeserializer<LocalDateTim
     @Override
     public LocalDateTime deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
 
-            if(json == null) return null;
+        if(json == null) return null;
 
-            try {
-                return LocalDateTime.parse(json.getAsString(), formatter);
-            } catch (DateTimeParseException e) {
-                return ZonedDateTime.parse(json.getAsString(), zonedFormatter).toLocalDateTime();
-            }
+        try {
+            return LocalDateTime.parse(json.getAsString(), formatter);
+        } catch (DateTimeParseException e) {
+            return ZonedDateTime.parse(json.getAsString(), zonedFormatter).toLocalDateTime();
+        }
     }
 }
