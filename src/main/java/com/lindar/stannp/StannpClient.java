@@ -1,8 +1,10 @@
 package com.lindar.stannp;
 
+import org.apache.commons.lang3.StringUtils;
+
 public class StannpClient {
 
-    private static final String DEFAULT_ENDPOINT = "https://dash.stannp.com";
+    private static final String DEFAULT_API_URL = "https://dash.stannp.com";
 
     private LetterResource letterResource;
     private PostcardResource postcardResource;
@@ -11,7 +13,12 @@ public class StannpClient {
 
 
     public StannpClient(String apiKey, boolean forceTest) {
-        RequestBuilder requestBuilder = new RequestBuilder(DEFAULT_ENDPOINT, apiKey, forceTest);
+        this(apiKey, forceTest, DEFAULT_API_URL);
+    }
+
+    public StannpClient(String apiKey, boolean forceTest, String apiUrl) {
+        apiUrl = StringUtils.isEmpty(apiUrl) ? DEFAULT_API_URL : apiUrl;
+        RequestBuilder requestBuilder = new RequestBuilder(apiUrl, apiKey, forceTest);
         this.letterResource = new LetterResource(requestBuilder);
         this.postcardResource = new PostcardResource(requestBuilder);
         this.templateResource = new TemplateResource(requestBuilder);
@@ -40,5 +47,9 @@ public class StannpClient {
 
     public static StannpClient of(String apiKey, boolean forceTest) {
         return new StannpClient(apiKey, forceTest);
+    }
+
+    public static StannpClient of(String apiKey, boolean forceTest, String apiUrl) {
+        return new StannpClient(apiKey, forceTest, apiUrl);
     }
 }
